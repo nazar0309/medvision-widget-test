@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Клініка «Тест» — перевірка віджетів Med Vision</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; margin: 0; color: #1a1b1f; background: #f6f8fa; }
+  header { background: #0b6e99; color: #fff; padding: 24px 16px; }
+  header p { margin: 6px 0 0; opacity: .9; }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 96px; }
+  section { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  h1 { margin: 0; font-size: 24px; }
+  h2 { margin: 0 0 12px; font-size: 18px; }
+  p.note { color: #5b6470; font-size: 14px; }
+  #log { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; white-space: pre-wrap; background: #111827; color: #a7f3d0; padding: 12px; border-radius: 8px; min-height: 56px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Клініка «Тест» — сайт для перевірки віджетів Med Vision</h1>
+  <p>Сторінка імітує сайт клініки на сторонньому домені (GitHub Pages). Внизу праворуч має з'явитись плаваюча кнопка «Передзвоніть мені».</p>
+</header>
+<main>
+  <section>
+    <h2>Онлайн-запис на прийом — рамка на сторінці (iframe)</h2>
+    <p class="note">Код вставки з вкладки «Віджет запису» (рамка, авто по висоті).</p>
+    <iframe src="https://app.medvision.com.ua/booking/ead780a9-dbd6-4b68-a096-ccfaacc6c988?embed=1" title="Онлайн-запис на прийом" loading="lazy"
+      data-medvision-booking="ead780a9-dbd6-4b68-a096-ccfaacc6c988"
+      style="width:100%;max-width:100%;height:640px;border:0"></iframe>
+    <script src="https://app.medvision.com.ua/widget/booking-widget.js" async></script>
+  </section>
+
+  <section>
+    <h2>«Передзвоніть мені» — плаваюча кнопка (script)</h2>
+    <p class="note">Код вставки з вкладки «Віджет «Передзвоніть мені»». Кнопка малюється лише якщо домен сайту є в дозволених.</p>
+    <script src="https://app.medvision.com.ua/widget/booking-widget.js" async
+      data-medvision-booking="ead780a9-dbd6-4b68-a096-ccfaacc6c988"
+      data-widget="callback"
+      data-mode="button"
+      data-text="Передзвоніть мені"
+      data-position="floating"
+      data-size="medium"></script>
+  </section>
+
+  <section>
+    <h2>Події віджета на сайті</h2>
+    <div id="log">(тут з'являться події medvision:booked і medvision:callback)</div>
+  </section>
+</main>
+<script>
+  (function () {
+    var log = document.getElementById('log');
+    function add(text) {
+      var fresh = log.textContent.charAt(0) === '(';
+      log.textContent = (fresh ? '' : log.textContent + '\n') + new Date().toLocaleTimeString() + '  ' + text;
+    }
+    window.addEventListener('medvision:booked', function (e) { add('medvision:booked ' + JSON.stringify(e.detail)); });
+    window.addEventListener('medvision:callback', function (e) { add('medvision:callback ' + JSON.stringify(e.detail)); });
+  })();
+</script>
+</body>
+</html>
